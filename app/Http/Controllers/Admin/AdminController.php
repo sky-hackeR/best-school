@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\SiteInfo as Setting;
 use App\Models\Admin;
+use App\Models\HeroSection as Carousel;
 
 use SweetAlert;
 use Alert;
@@ -112,4 +113,13 @@ class AdminController extends Controller
         alert()->error('Oops!', 'Something went wrong')->persistent('Close');
         return redirect()->back();
     }
+
+    public function heroSection() {
+        $carousel = Carousel::first();
+        return view('admin.heroSection', [
+            'carousel' => $carousel,
+        ]);
+    }
+
+    
 }

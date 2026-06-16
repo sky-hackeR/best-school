@@ -36,8 +36,9 @@ Route::group(['prefix' => 'admin'], function () {
   Route::get('/siteSettings', [App\Http\Controllers\Admin\AdminController::class, 'siteSettings'])->name('siteSettings')->middleware(['auth:admin']);
   Route::post('/updateSiteSettings', [App\Http\Controllers\Admin\AdminController::class, 'updateSiteSettings'])->name('updateSiteSettings')->middleware(['auth:admin']);
 
+  Route::get('/heroSection', [App\Http\Controllers\Admin\AdminController::class, 'heroSection'])->name('heroSection')->middleware(['auth:admin']);
+  Route::post('/updateHeroSection', [App\Http\Controllers\Admin\AdminController::class, 'heroSection'])->name('updateHeroSection')->middleware(['auth:admin']);
+
 });
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
