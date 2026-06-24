@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [App\Http\Controllers\PageController::class, 'index'])->name('home');
+
 
 Route::group(['prefix' => 'admin'], function () {
   Route::get('/', [App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('admin.login');
@@ -36,8 +39,15 @@ Route::group(['prefix' => 'admin'], function () {
   Route::get('/siteSettings', [App\Http\Controllers\Admin\AdminController::class, 'siteSettings'])->name('siteSettings')->middleware(['auth:admin']);
   Route::post('/updateSiteSettings', [App\Http\Controllers\Admin\AdminController::class, 'updateSiteSettings'])->name('updateSiteSettings')->middleware(['auth:admin']);
 
-  Route::get('/heroSection', [App\Http\Controllers\Admin\AdminController::class, 'heroSection'])->name('heroSection')->middleware(['auth:admin']);
-  Route::post('/updateHeroSection', [App\Http\Controllers\Admin\AdminController::class, 'heroSection'])->name('updateHeroSection')->middleware(['auth:admin']);
+  Route::get('/carousel', [App\Http\Controllers\Admin\AdminController::class, 'carousel'])->name('carousel')->middleware(['auth:admin']);
+  Route::post('/newCarousel', [App\Http\Controllers\Admin\AdminController::class, 'newCarousel'])->name('newCarousel')->middleware(['auth:admin']);
+  Route::post('/setCarouselStatus', [App\Http\Controllers\Admin\AdminController::class, 'setCarouselStatus'])->name('setCarouselStatus')->middleware(['auth:admin']);
+  Route::post('/updateCarousel', [App\Http\Controllers\Admin\AdminController::class, 'updateCarousel'])->name('updateCarousel')->middleware(['auth:admin']);
+  Route::post('/deleteCarousel', [App\Http\Controllers\Admin\AdminController::class, 'deleteCarousel'])->name('deleteCarousel')->middleware(['auth:admin']);
+
+
+
+  
 
 });
 
