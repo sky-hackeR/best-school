@@ -36,7 +36,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th class="text-center" style="width: 70px;">Image</th>
-                                <th>Title</th>
+                                <th>Tagline</th>
                                 <th>Button Text</th>
                                 <th>Button Link</th>
                                 <th>Status</th>
@@ -57,7 +57,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <h5 class="font-size-14 mb-0 text-dark fw-semibold">{{ $carousel->title }}</h5>
+                                        <h5 class="font-size-14 mb-0 text-dark fw-semibold">{{ $carousel->tagline }}</h5>
                                     </td>
                                     <td>{{ $carousel->button_text ?? 'N/A' }}</td>
                                     <td>
@@ -89,7 +89,7 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center gap-1">
-                                            <button type="button" data-bs-toggle="modal" data-bs-target="#viewCarousel{{ $carousel->id }}" class="btn btn-soft-info btn-sm" title="View Profile">
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#viewCarousel{{ $carousel->id }}" class="btn btn-soft-info btn-sm" title="View Carousel">
                                                 <i class="bx bx-show-alt font-size-16"></i>
                                             </button>
                                             <button type="button" data-bs-toggle="modal" data-bs-target="#editCarousel{{ $carousel->id }}" class="btn btn-soft-primary btn-sm" title="Edit Slide">
@@ -181,13 +181,13 @@
                                     <h6 class="text-muted text-uppercase font-size-11 fw-bold mb-3" style="letter-spacing: 0.5px;">Textual Elements</h6>
                                     
                                     <div class="row mb-3">
-                                        <div class="col-sm-4 text-muted font-size-13">Title Content:</div>
-                                        <div class="col-sm-8 fw-semibold text-dark">{{ $carousel->title }}</div>
+                                        <div class="col-sm-4 text-muted font-size-13">Tagline Content:</div>
+                                        <div class="col-sm-8 fw-semibold text-dark">{{ $carousel->tagline }}</div>
                                     </div>
 
                                     <div class="row mb-3">
-                                        <div class="col-sm-4 text-muted font-size-13">Subtitle:</div>
-                                        <div class="col-sm-8 text-secondary">{!! $carousel->subtitle ?? 'N/A' !!}</div>
+                                        <div class="col-sm-4 text-muted font-size-13">Hero Heading:</div>
+                                        <div class="col-sm-8 text-secondary">{!! $carousel->hero_heading ?? 'N/A' !!}</div>
                                     </div>
 
                                     <hr class="my-3 opacity-50">
@@ -244,13 +244,13 @@
                             <div class="col-md-9">
                                 <div class="row g-3">
                                     <div class="col-md-12">
-                                        <label class="form-label fw-bold">Title *</label>
-                                        <input type="text" class="form-control" name="title" value="{{ $carousel->title }}" required>
+                                        <label class="form-label fw-bold">Tagline *</label>
+                                        <input type="text" class="form-control" name="tagline" value="{{ $carousel->tagline }}" required>
                                     </div>
                                     
                                     <div class="col-md-12">
-                                        <label class="form-label fw-bold">Subtitle</label>
-                                        <textarea class="form-control" name="subtitle" rows="2" placeholder="Provide extra contextual body description text">{{ $carousel->subtitle }}</textarea>
+                                        <label class="form-label fw-bold">Hero Heading</label>
+                                        <input class="form-control" type="text" name="hero_heading" rows="2" value="{{ $carousel->hero_heading }}">
                                     </div>
         
                                     <div class="col-md-6">
@@ -289,7 +289,7 @@
                             </div>
                         </div>
                         <h4 class="text-danger">Remove Slider Instance?</h4>
-                        <p class="text-muted">You are removing slide entry text data from active queues: <br><strong class="text-dark">"{{ $carousel->title }}"</strong>.</p>
+                        <p class="text-muted">You are removing slide entry text data from active queues: <br><strong class="text-dark">"{{ $carousel->tagline }}"</strong>.</p>
                         
                         <div class="d-flex gap-2 mt-4">
                             <button type="button" class="btn btn-light w-50" data-bs-dismiss="modal">Cancel</button>
@@ -316,12 +316,12 @@
                     <div class="row g-3">
                         <div class="col-md-12">
                             <label class="form-label fw-bold">Title Header *</label>
-                            <input type="text" name="title" class="form-control" placeholder="Enter prominent banner main header text" required>
+                            <input type="text" name="tagline" class="form-control" placeholder="Enter prominent banner main header text" required>
                         </div>
                         
                         <div class="col-md-12">
-                            <label class="form-label fw-bold">Subtitle Context</label>
-                            <textarea name="subtitle" class="form-control" rows="2" placeholder="Enter micro copy or details summary"></textarea>
+                            <label class="form-label fw-bold">Hero Heading Context</label>
+                            <input name="hero_heading" type="text" class="form-control" rows="2" placeholder="Enter micro copy or details summary">
                         </div>
                         
                         <div class="col-md-6">
@@ -331,7 +331,7 @@
                         
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Button Link URL</label>
-                            <input type="text" name="button_link" class="form-control" placeholder="e.g. https://domain.com/services">
+                            <input type="text" name="button_link" class="form-control" placeholder="e.g. /services">
                         </div>
                         
                         <div class="col-md-12">

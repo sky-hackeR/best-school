@@ -123,8 +123,8 @@ class AdminController extends Controller
 
     public function newCarousel(Request $request){
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string',
+            'tagline' => 'required|string|max:255',
+            'hero_heading' => 'nullable|string',
             'button_text' => 'nullable|string|max:100',
             'button_link' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -136,7 +136,7 @@ class AdminController extends Controller
             return redirect()->back()->withInput();
         }
 
-        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->title))) . '-' . time();
+        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->tagline))) . '-' . time();
         $hashedFolder = md5(uniqid() . time());
         $folderPath = public_path("uploads/carousels/{$hashedFolder}");
 
@@ -152,8 +152,8 @@ class AdminController extends Controller
         }
 
         $carousel = new Carousel([
-            'title' => $request->title,
-            'subtitle' => $request->subtitle,
+            'tagline' => $request->tagline,
+            'hero_heading' => $request->hero_heading,
             'button_text' => $request->button_text,
             'button_link' => $request->button_link,
             'slug' => $slug,
@@ -174,8 +174,8 @@ class AdminController extends Controller
     public function updateCarousel(Request $request){
         $request->validate([
             'carousel_id' => 'required|exists:carousels,id',
-            'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string',
+            'tagline' => 'required|string|max:255',
+            'hero_heading' => 'nullable|string',
             'button_text' => 'nullable|string|max:100',
             'button_link' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -183,7 +183,7 @@ class AdminController extends Controller
     
         $carousel = Carousel::findOrFail($request->carousel_id);
     
-        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->title))) . '-' . $carousel->id;
+        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->tagline))) . '-' . $carousel->id;
     
         if (!$carousel->upload_folder) {
             $hashedFolder = md5($carousel->id . uniqid());
@@ -206,8 +206,8 @@ class AdminController extends Controller
         }
     
         $carousel->fill([
-            'title' => $request->title,
-            'subtitle' => $request->subtitle,
+            'tagline' => $request->tagline,
+            'hero_heading' => $request->hero_heading,
             'button_text' => $request->button_text,
             'button_link' => $request->button_link,
             'image' => $imageUrl,
@@ -273,4 +273,9 @@ class AdminController extends Controller
         alert()->error('Oops!', 'Something went wrong')->persistent('Close');
         return redirect()->back();
     }
+
+    public function about(){
+        return view('admin.about');
+    }
+    
 }

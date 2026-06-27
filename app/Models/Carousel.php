@@ -12,8 +12,8 @@ class Carousel extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title',
-        'subtitle',
+        'tagline',
+        'hero_heading',
         'button_text',
         'button_link',
         'image',

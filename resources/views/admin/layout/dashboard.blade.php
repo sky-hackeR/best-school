@@ -674,10 +674,19 @@
                                 </a>
                             </li>
 
+
+                            <li class="menu-title" key="t-menu">Site Sections</li>
                             <li>
                                 <a href="{{ url('/admin/carousel') }}" class="waves-effect">
                                     <i class="bx bx-carousel"></i>
                                     <span key="t-settings">Carousel(Hero Section)</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ url('/admin/about') }}" class="waves-effect">
+                                    <i class="bx bx-info-circle"></i>
+                                    <span key="t-settings">About Us</span>
                                 </a>
                             </li>
                             

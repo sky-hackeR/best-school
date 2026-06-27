@@ -28,4 +28,8 @@ class PageController extends Controller
             'carousels' => $carousels,
         ]);
     }
+
+    public function about(){
+        return view('landing.pages.about');
+    }
 }

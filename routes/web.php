@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [App\Http\Controllers\PageController::class, 'index'])->name('home');
+Route::get('/about', [App\Http\Controllers\PageController::class, 'about'])->name('about');
 
 
 Route::group(['prefix' => 'admin'], function () {
@@ -44,6 +45,9 @@ Route::group(['prefix' => 'admin'], function () {
   Route::post('/setCarouselStatus', [App\Http\Controllers\Admin\AdminController::class, 'setCarouselStatus'])->name('setCarouselStatus')->middleware(['auth:admin']);
   Route::post('/updateCarousel', [App\Http\Controllers\Admin\AdminController::class, 'updateCarousel'])->name('updateCarousel')->middleware(['auth:admin']);
   Route::post('/deleteCarousel', [App\Http\Controllers\Admin\AdminController::class, 'deleteCarousel'])->name('deleteCarousel')->middleware(['auth:admin']);
+
+  Route::get('/about', [App\Http\Controllers\Admin\AdminController::class, 'about'])->name('about')->middleware(['auth:admin']);
+
 
 
 

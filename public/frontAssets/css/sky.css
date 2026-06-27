@@ -1,0 +1,246 @@
+/*--------------------------------------------------------------
+02. Custom Icons CSS across Header and Footer
+--------------------------------------------------------------*/
+.site-logo{
+    max-height: 80px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+
+    /* REMOVE THIS AFTER TESTING */
+    background: rgba(0,0,0,0.15);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.logo {
+    margin-left: -45px;
+    margin-bottom: -8px;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-logo img {
+    max-height: 80px;
+    width: auto;
+    margin-left: -15px;
+
+    /* REMOVE THIS AFTER TESTING */
+    background: rgba(0,0,0,0.15);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.offcanvas-logo{
+    max-height: 70px;
+    width: auto;
+
+    /* REMOVE THIS AFTER TESTING */
+    background: rgba(0,0,0,0.15);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+
+/* =====================================
+   GEM HERO BACKGROUND SLIDER
+===================================== */
+
+.gem-hero-slider-area {
+    position: relative;
+    overflow: hidden;
+}
+
+.gem-slide-bg {
+    position: relative;
+    min-height: 850px;
+
+    display: flex;
+    align-items: center;
+
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    overflow: hidden;
+}
+
+/* background zoom */
+
+.gem-slide-bg::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background-image: inherit;
+    background-size: cover;
+    background-position: center center;
+
+    animation: gemZoom 15s linear infinite;
+
+    z-index: 1;
+}
+
+/* overlay */
+
+.gem-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        90deg,
+        rgba(0,79,68,.88) 0%,
+        rgba(0,79,68,.72) 40%,
+        rgba(0,0,0,.45) 100%
+    );
+
+    z-index: 2;
+}
+
+.gem-hero-content {
+    position: relative;
+    z-index: 5;
+}
+
+/* hero_heading */
+
+.gem-hero_heading {
+    display: inline-block;
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 25px;
+
+    opacity: 0;
+}
+
+/* tagline */
+
+.gem-hero-content h1 {
+
+    color: #ffffff;
+
+    font-size: 78px;
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    margin-bottom: 35px;
+
+    opacity: 0;
+}
+
+/* button */
+
+.gem-hero-content .theme-btn {
+    opacity: 0;
+}
+
+/* reveal animation */
+
+.swiper-slide-active .gem-hero_heading {
+    animation: gemReveal 1s ease forwards;
+}
+
+.swiper-slide-active h1 {
+    animation: gemReveal 1s ease forwards;
+    animation-delay: .3s;
+}
+
+.swiper-slide-active .theme-btn {
+    animation: gemReveal 1s ease forwards;
+    animation-delay: .6s;
+}
+
+/* reveal keyframe */
+
+@keyframes gemReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+/* cinematic zoom */
+
+@keyframes gemZoom {
+
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.12);
+    }
+
+}
+
+/* pagination */
+
+.gemHeroSlider .swiper-pagination {
+    bottom: 50px;
+}
+
+.gemHeroSlider .swiper-pagination-bullet {
+
+    width: 12px;
+    height: 12px;
+
+    background: rgba(255,255,255,.4);
+
+    opacity: 1;
+}
+
+.gemHeroSlider .swiper-pagination-bullet-active {
+
+    background: var(--theme);
+
+    outline: 2px solid #fff;
+
+    outline-offset: 4px;
+}
+
+/* tablet */
+
+@media (max-width: 991px) {
+
+    .gem-slide-bg {
+        min-height: 700px;
+    }
+
+    .gem-hero-content h1 {
+        font-size: 52px;
+    }
+
+}
+
+/* mobile */
+
+@media (max-width: 767px) {
+
+    .gem-slide-bg {
+        min-height: 600px;
+    }
+
+    .gem-hero-content h1 {
+        font-size: 36px;
+    }
+
+}
