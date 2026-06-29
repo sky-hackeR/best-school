@@ -46,8 +46,14 @@ Route::group(['prefix' => 'admin'], function () {
   Route::post('/updateCarousel', [App\Http\Controllers\Admin\AdminController::class, 'updateCarousel'])->name('updateCarousel')->middleware(['auth:admin']);
   Route::post('/deleteCarousel', [App\Http\Controllers\Admin\AdminController::class, 'deleteCarousel'])->name('deleteCarousel')->middleware(['auth:admin']);
 
-  Route::get('/about', [App\Http\Controllers\Admin\AdminController::class, 'about'])->name('about')->middleware(['auth:admin']);
+  Route::get('/schoolHistory', [App\Http\Controllers\Admin\AdminController::class, 'schoolHistory'])->name('schoolHistory')->middleware(['auth:admin']);
+  Route::post('/updateSchoolHistory', [App\Http\Controllers\Admin\AdminController::class, 'updateSchoolHistory'])->name('updateSchoolHistory')->middleware(['auth:admin']);
 
+  Route::get('/visionMission', [App\Http\Controllers\Admin\AdminController::class, 'visionMission'])->name('visionMission')->middleware(['auth:admin']);
+  Route::post('/updateVisionMission', [App\Http\Controllers\Admin\AdminController::class, 'updateVisionMission'])->name('updateVisionMission')->middleware(['auth:admin']);
+
+  Route::get('/schoolAnthem', [App\Http\Controllers\Admin\AdminController::class, 'schoolAnthem'])->name('schoolAnthem')->middleware(['auth:admin']);
+  Route::post('/updateSchoolAnthem', [App\Http\Controllers\Admin\AdminController::class, 'updateSchoolAnthem'])->name('updateSchoolAnthem')->middleware(['auth:admin']);
 
 
 

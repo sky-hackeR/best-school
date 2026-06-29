@@ -270,11 +270,11 @@
                                         <ul>
 
                                             <li>
-                                                <a href="#">Home</a>
+                                                <a href="{{ url('/') }}">Home</a>
                                             </li>
 
                                             <li>
-                                                <a href="#">About Us</a>
+                                                <a href="{{ url('/about') }}">About Us</a>
                                             </li>
 
                                             <li class="has-dropdown">
@@ -315,11 +315,11 @@
                                             </li>
 
                                             <li>
-                                                <a href="#">Gallery</a>
+                                                <a href="{{ url('/gallery') }}">Gallery</a>
                                             </li>
 
                                             <li>
-                                                <a href="#">Contact Us</a>
+                                                <a href="{{ url('/contact') }}">Contact Us</a>
                                             </li>
 
                                         </ul>
@@ -507,6 +507,29 @@
         <script src="{{ asset('frontAssets/js/wow.min.js') }}"></script>
         <!--<< Main.js >>-->
         <script src="{{ asset('frontAssets/js/main.js') }}"></script>
+
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function(){
+
+                const toggleBtn = document.getElementById('historyToggle');
+                const historyBox = document.getElementById('historyBox');
+
+                toggleBtn.addEventListener('click', function(){
+
+                    historyBox.classList.toggle('expanded');
+
+                    if(historyBox.classList.contains('expanded')){
+                        toggleBtn.innerHTML = 'Show Less <i class="fa-solid fa-chevron-up ms-2"></i>';
+                    }else{
+                        toggleBtn.innerHTML = 'Continue Reading <i class="fa-solid fa-chevron-down ms-2"></i>';
+                    }
+
+                });
+
+            });
+
+        </script>
 
         <script>
             new Swiper(".gemHeroSlider", {

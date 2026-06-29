@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\SiteInfo as Setting;
 use App\Models\Carousel;
+use App\Models\SchoolHistory;
+use App\Models\VisionMission;
+use App\Models\SchoolAnthem;
 
 class PageController extends Controller
 {
@@ -24,12 +27,23 @@ class PageController extends Controller
 
     public function index(){
         $carousels = Carousel::where('status', 'active')->get();
+        $history = SchoolHistory::first();
+        $visionMission = VisionMission::first();
         return view('landing.welcome', [
             'carousels' => $carousels,
+            'history' => $history,
+            'visionMission' => $visionMission,
         ]);
     }
 
     public function about(){
-        return view('landing.pages.about');
+        $anthem = SchoolAnthem::first();
+        $visionMission = VisionMission::first();
+        $history = SchoolHistory::first();
+        return view('landing.pages.about', [
+            'anthem' => $anthem,
+            'visionMission' => $visionMission,
+            'history' => $history,
+        ]);
     }
 }

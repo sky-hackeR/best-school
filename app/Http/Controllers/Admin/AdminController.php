@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\SiteInfo as Setting;
 use App\Models\Admin;
 use App\Models\Carousel;
+use App\Models\SchoolHistory;
+use App\Models\VisionMission;
+use App\Models\SchoolAnthem;
 
 use SweetAlert;
 use Alert;
@@ -274,8 +277,185 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
-    public function about(){
-        return view('admin.about');
+    public function schoolHistory(){
+        $history = SchoolHistory::first();
+        return view('admin.schoolHistory', [
+            'history' => $history,
+        ]);
+    }
+
+
+    public function updateSchoolHistory(Request $request){
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            alert()->error('Error', $validator->messages()->all()[0])->persistent('Close');
+            return redirect()->back();
+        }
+
+        $history = new SchoolHistory;
+
+        if (!empty($request->history_id) && !$history = SchoolHistory::find($request->history_id)) {
+            alert()->error('Oops', 'Invalid School History')->persistent('Close');
+            return redirect()->back();
+        }
+
+        if (!$history->upload_folder) {
+            $hashedFolder = md5($history->id . uniqid());
+            $history->upload_folder = $hashedFolder;
+            $history->save();
+        } else {
+            $hashedFolder = $history->upload_folder;
+        }
+
+        $folderPath = public_path("uploads/about/history/{$hashedFolder}");
+
+        if (!file_exists($folderPath)) {
+            mkdir($folderPath, 0777, true);
+        }
+
+        $imageUrl = $history->image;
+
+        if ($request->hasFile('image')) {
+            $imageName = 'history.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move($folderPath, $imageName);
+            $imageUrl = "uploads/about/history/{$hashedFolder}/{$imageName}";
+        }
+
+        $history->fill([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $imageUrl,
+        ]);
+
+        if ($history->isDirty()) {
+            if ($history->save()) {
+                alert()->success('Success', 'School history updated successfully')->persistent('Close');
+            } else {
+                alert()->error('Oops!', 'Something went wrong while saving changes')->persistent('Close');
+            }
+        } else {
+            alert()->info('No Changes', 'No updates were made')->persistent('Close');
+        }
+
+        return redirect()->back();
+    }
+
+    public function visionMission(){
+        $visionMission = VisionMission::first();
+        return view('admin.visionMission', [
+            'visionMission' => $visionMission,
+        ]);
+    }
+
+    public function updateVisionMission(Request $request){
+        $validator = Validator::make($request->all(), [
+            'vision'  => 'nullable|string',
+            'mission' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            alert()->error('Error', $validator->messages()->all()[0])->persistent('Close');
+            return redirect()->back();
+        }
+
+        $visionMission = new VisionMission;
+
+        if (
+            !empty($request->vision_mission_id)
+            && !$visionMission = VisionMission::find($request->vision_mission_id)
+        ) {
+            alert()->error('Oops', 'Invalid Vision & Mission Record')->persistent('Close');
+            return redirect()->back();
+        }
+
+        if (!empty($request->vision)) {
+            $visionMission->vision = $request->vision;
+        }
+
+        if (!empty($request->mission)) {
+            $visionMission->mission = $request->mission;
+        }
+
+        if ($visionMission->save()) {
+
+            alert()->success(
+                'Changes Saved',
+                'Vision & Mission updated successfully'
+            )->persistent('Close');
+
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+    public function schoolAnthem(){
+        $anthem = SchoolAnthem::first();
+        return view('admin.schoolAnthem', [
+            'anthem' => $anthem,
+        ]);
+    }
+
+    public function updateSchoolAnthem(Request $request){
+        $validator = Validator::make($request->all(), [
+            'title' => 'nullable|string|max:255',
+            'chorus' => 'nullable|string',
+            'stanzas' => 'nullable|array',
+            'stanzas.*' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            alert()->error('Error', $validator->messages()->all()[0])->persistent('Close');
+            return redirect()->back();
+        }
+
+        $anthem = new SchoolAnthem;
+
+        if (!empty($request->anthem_id) && !$anthem = SchoolAnthem::find($request->anthem_id)) {
+            alert()->error('Oops', 'Invalid School Anthem')->persistent('Close');
+            return redirect()->back();
+        }
+
+        if (!empty($request->title)) {
+            $anthem->title = $request->title;
+        }
+
+        if (!empty($request->chorus)) {
+            $anthem->chorus = $request->chorus;
+        }
+
+        $stanzas = [];
+
+        if ($request->has('stanzas')) {
+
+            foreach ($request->stanzas as $stanza) {
+
+                if (!empty(trim($stanza))) {
+                    $stanzas[] = $stanza;
+                }
+            }
+        }
+
+        $anthem->stanzas = $stanzas;
+
+        if ($anthem->save()) {
+
+            alert()->success(
+                'Changes Saved',
+                'School anthem updated successfully'
+            )->persistent('Close');
+
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
     }
     
 }

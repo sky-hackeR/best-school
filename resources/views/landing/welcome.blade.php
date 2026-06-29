@@ -4,4 +4,10 @@
 
     @include('landing.sections.carousel')
 
+    @include('landing.sections.about')
+
+    
+
+    
+
 @endsection

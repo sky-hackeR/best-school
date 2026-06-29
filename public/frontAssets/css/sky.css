@@ -1,3 +1,36 @@
+:root {
+  --body: #2F3A34;
+  --black: #000000;
+  --white: #FFFFFF;
+
+  /* GEM Green */
+  --theme: #1F7A4D;
+
+  /* Cream Accent */
+  --theme-2: #F4E7C1;
+
+  /* Headings */
+  --header: #123524;
+
+  /* Paragraphs */
+  --text: #5A665F;
+
+  /* Borders */
+  --border: rgba(31, 122, 77, 0.18);
+
+  /* Light cream background */
+  --bg: #FAF7EF;
+
+  /* Dark green sections */
+  --bg-2: #1F7A4D;
+
+  --box-shadow: 0px 4px 25px 0px rgba(0, 0, 0, 0.06);
+}
+
+
+
+
+
 /*--------------------------------------------------------------
 02. Custom Icons CSS across Header and Footer
 --------------------------------------------------------------*/
@@ -244,3 +277,338 @@
     }
 
 }
+
+
+/* ==================================================
+   SCHOOL HISTORY SECTION
+================================================== */
+
+.history-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.history-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 25px;
+    box-shadow: var(--box-shadow);
+    position: sticky;
+    top: 120px;
+}
+
+.history-card img {
+    width: 100%;
+    height: 620px;
+    object-fit: cover;
+    border-radius: 18px;
+}
+
+.history-content {
+    position: relative;
+}
+
+.history-content .section-title h6 {
+    color: var(--theme);
+}
+
+.history-content .section-title h2 {
+    color: var(--header);
+}
+
+.history-scroll-box {
+    max-height: 650px;
+    overflow: hidden;
+    position: relative;
+    color: var(--text);
+    line-height: 2;
+    font-size: 16px;
+    transition: all .5s ease;
+}
+
+.history-scroll-box.expanded {
+    max-height: 100%;
+}
+
+.history-scroll-box::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 180px;
+    background: linear-gradient(
+        transparent,
+        rgba(250, 247, 239, .95),
+        var(--bg)
+    );
+    transition: .3s;
+}
+
+.history-scroll-box.expanded::after {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.history-readmore {
+    margin-top: 35px;
+    text-align: center;
+}
+
+.history-readmore button {
+    border: none;
+    background: var(--theme);
+    color: var(--white);
+    padding: 14px 35px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all .3s ease;
+}
+
+.history-readmore button:hover {
+    transform: translateY(-3px);
+}
+
+.history-guide {
+    color: var(--theme);
+    font-size: 14px;
+    margin-top: 15px;
+    font-weight: 500;
+    animation: bounceGuide 2s infinite;
+}
+
+@keyframes bounceGuide {
+    0%,100%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(5px);
+    }
+}
+
+/* ==================================================
+   VISION & MISSION SECTION
+================================================== */
+
+.vision-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 40px;
+    height: 100%;
+    box-shadow: var(--box-shadow);
+    border-top: 5px solid var(--theme);
+    transition: all .3s ease;
+}
+
+.vision-card:hover {
+    transform: translateY(-8px);
+}
+
+.vision-icon {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background: rgba(31, 122, 77, .08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--theme);
+    font-size: 30px;
+    margin-bottom: 25px;
+}
+
+.vision-card h3 {
+    color: var(--header);
+    margin-bottom: 20px;
+}
+
+.vision-card p,
+.vision-card div {
+    color: var(--text);
+    line-height: 1.9;
+}
+
+/* ==================================================
+   SCHOOL ANTHEM SECTION
+================================================== */
+
+.anthem-section {
+    background: var(--bg);
+    overflow: hidden;
+    position: relative;
+}
+
+.anthem-slider {
+    overflow: hidden;
+    width: 100%;
+}
+
+.anthem-track {
+    display: flex;
+    width: max-content;
+    animation: anthemMove 45s linear infinite;
+}
+
+.anthem-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes anthemMove {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.anthem-card {
+    width: 380px;
+    min-width: 380px;
+    height: 450px;
+    background: var(--white);
+    border-radius: 24px;
+    padding: 30px;
+    margin-right: 25px;
+    box-shadow: var(--box-shadow);
+    border-top: 5px solid var(--theme);
+    display: flex;
+    flex-direction: column;
+    transition: all .3s ease;
+}
+
+.anthem-card:hover {
+    transform: translateY(-10px);
+}
+
+.anthem-card h4 {
+    color: var(--theme);
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.anthem-card .anthem-body {
+    flex: 1;
+    overflow-y: auto;
+    color: var(--text);
+    line-height: 2;
+    padding-right: 8px;
+}
+
+.anthem-card .anthem-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.anthem-card .anthem-body::-webkit-scrollbar-thumb {
+    background: var(--theme);
+    border-radius: 20px;
+}
+
+.anthem-card .anthem-body::-webkit-scrollbar-track {
+    background: rgba(31, 122, 77, .08);
+}
+
+
+/* ==================================================
+   PREMIUM SECTION TITLES
+================================================== */
+
+.section-title h6 {
+    color: var(--theme);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.section-title h2 {
+    color: var(--header);
+}
+
+.section-title p {
+    color: var(--text);
+}
+
+/* ==================================================
+   NICE TEXT STYLING FOR HISTORY CONTENT
+================================================== */
+
+.history-scroll-box p {
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+.history-scroll-box h1,
+.history-scroll-box h2,
+.history-scroll-box h3,
+.history-scroll-box h4,
+.history-scroll-box h5,
+.history-scroll-box h6 {
+    color: var(--header);
+    margin-bottom: 15px;
+}
+
+.history-scroll-box ul,
+.history-scroll-box ol {
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.history-scroll-box li {
+    margin-bottom: 10px;
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 991px) {
+
+    .history-card {
+        position: relative;
+        top: auto;
+        margin-bottom: 40px;
+    }
+
+    .history-card img {
+        height: 400px;
+    }
+
+    .history-scroll-box {
+        max-height: 500px;
+    }
+
+    .anthem-card {
+        width: 320px;
+        min-width: 320px;
+        height: 420px;
+    }
+
+    .vision-card {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .history-card img {
+        height: 300px;
+    }
+
+    .anthem-card {
+        width: 280px;
+        min-width: 280px;
+        height: 380px;
+    }
+
+    .history-scroll-box {
+        max-height: 420px;
+    }
+
+    .vision-card {
+        padding: 25px;
+    }
+}
+
+
+

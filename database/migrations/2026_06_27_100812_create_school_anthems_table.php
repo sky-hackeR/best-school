@@ -3,8 +3,10 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CreateAboutsTable extends Migration
+
+class CreateSchoolAnthemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +15,13 @@ class CreateAboutsTable extends Migration
      */
     public function up()
     {
-        Schema::create('abouts', function (Blueprint $table) {
+        Schema::create('school_anthems', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->nullable();
+            $table->json('stanzas')->nullable();
+            $table->longText('chorus')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +32,6 @@ class CreateAboutsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('abouts');
+        Schema::dropIfExists('school_anthems');
     }
 }
