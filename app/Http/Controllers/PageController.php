@@ -20,6 +20,8 @@ use App\Models\Carousel;
 use App\Models\SchoolHistory;
 use App\Models\VisionMission;
 use App\Models\SchoolAnthem;
+use App\Models\Gallery;
+
 
 class PageController extends Controller
 {
@@ -46,4 +48,18 @@ class PageController extends Controller
             'history' => $history,
         ]);
     }
+
+    public function contact(){
+        return view('landing.pages.contact');
+    }
+
+    public function gallery(){
+        $galleries = Gallery::where('status', 'active')->get();
+        return view('landing.pages.gallery', [
+            'galleries' => $galleries,
+        
+        ]);
+    }
+
+
 }

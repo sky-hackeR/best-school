@@ -21,6 +21,8 @@ use App\Models\Carousel;
 use App\Models\SchoolHistory;
 use App\Models\VisionMission;
 use App\Models\SchoolAnthem;
+use App\Models\Gallery;
+
 
 use SweetAlert;
 use Alert;
@@ -457,5 +459,158 @@ class AdminController extends Controller
         alert()->error('Oops!', 'Something went wrong')->persistent('Close');
         return redirect()->back();
     }
+
+    public function gallery(){
+        $galleries = Gallery::all();
+        return view('admin.gallery', [
+            'galleries' => $galleries,
+        ]);
+    }
+
+    public function newGallery(Request $request){
+        $validator = Validator::make($request->all(), [
+            'category' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+        ]);
+
+        if ($validator->fails()) {
+            alert()->error('Validation Error', $validator->messages()->first())->persistent('Close');
+            return redirect()->back()->withInput();
+        }
+
+        $hashedFolder = md5(uniqid() . time());
+        $folderPath = public_path("uploads/gallery/{$hashedFolder}");
+
+        if (!file_exists($folderPath)) {
+            mkdir($folderPath, 0777, true);
+        }
+
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $imageName = 'gallery.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move($folderPath, $imageName);
+            $imagePath = "uploads/gallery/{$hashedFolder}/{$imageName}";
+        }
+
+        $gallery = new Gallery([
+            'category' => $request->category,
+            'upload_folder' => $hashedFolder,
+            'image' => $imagePath,
+            'status' => 'active',
+        ]);
+
+        if ($gallery->save()) {
+            alert()->success('Success', 'Gallery image created successfully')->persistent('Close');
+        } else {
+            alert()->error('Error', 'Failed to create gallery image')->persistent('Close');
+        }
+
+        return redirect()->back();
+    }
+
+    public function updateGallery(Request $request){
+        $validator = Validator::make($request->all(), [
+            'gallery_id' => 'required|exists:galleries,id',
+            'category' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+        ]);
+
+        if ($validator->fails()) {
+            alert()->error('Validation Error', $validator->messages()->first())->persistent('Close');
+            return redirect()->back()->withInput();
+        }
+
+        $gallery = Gallery::findOrFail($request->gallery_id);
+
+        if (!$gallery->upload_folder) {
+            $hashedFolder = md5($gallery->id . uniqid());
+            $gallery->upload_folder = $hashedFolder;
+            $gallery->save();
+        } else {
+            $hashedFolder = $gallery->upload_folder;
+        }
+
+        $folderPath = public_path("uploads/gallery/{$hashedFolder}");
+
+        if (!file_exists($folderPath)) {
+            mkdir($folderPath, 0777, true);
+        }
+
+        $imageUrl = $gallery->image;
+
+        if ($request->hasFile('image')) {
+            $imageName = 'gallery.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move($folderPath, $imageName);
+            $imageUrl = "uploads/gallery/{$hashedFolder}/{$imageName}";
+        }
+
+        $gallery->fill([
+            'category' => $request->category,
+            'image' => $imageUrl,
+        ]);
+
+        if ($gallery->save()) {
+            alert()->success('Updated', 'Gallery changes updated successfully');
+        } else {
+            alert()->error('Oops!', 'Failed to update changes')->persistent('Close');
+        }
+
+        return redirect()->back();
+    }
+
+    public function setGalleryStatus(Request $request){
+        $validator = Validator::make($request->all(), [
+            'gallery_id' => 'required|exists:galleries,id',
+            'status' => 'required|in:active,inactive',
+        ]);
+
+        if ($validator->fails()) {
+            alert()->error('Error', $validator->messages()->first())->persistent('Close');
+            return redirect()->back();
+        }
+
+        $gallery = Gallery::findOrFail($request->gallery_id);
+
+        $gallery->status = $request->status;
+
+        if ($gallery->save()) {
+            alert()->success('Updated', 'Gallery status changed successfully');
+        } else {
+            alert()->error('Oops!', 'Failed to update status')->persistent('Close');
+        }
+
+        return redirect()->back();
+    }
+
+    public function deleteGallery(Request $request){
+        $validator = Validator::make($request->all(), [
+            'gallery_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            alert()->error('Error', $validator->messages()->all()[0])->persistent('Close');
+            return redirect()->back();
+        }
+
+        if(!$gallery = Gallery::find($request->gallery_id)){
+            alert()->error('Oops', 'Invalid Gallery Item')->persistent('Close');
+            return redirect()->back();
+        }
+
+        if(!empty($gallery->image) && file_exists(public_path($gallery->image))){
+            @unlink(public_path($gallery->image));
+        }
+
+        if($gallery->delete()){
+            alert()->success('Deleted', 'Gallery image successfully deleted');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+
     
 }

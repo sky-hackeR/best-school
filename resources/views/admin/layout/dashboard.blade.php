@@ -175,6 +175,15 @@
                                     <span key="t-settings">School Anthem</span>
                                 </a>
                             </li>
+
+                           <li class="menu-title" key="t-menu">Site Pages</li> 
+
+                            <li>
+                                <a href="{{ url('/admin/gallery') }}" class="waves-effect">
+                                    <i class="bx bx-images"></i>
+                                    <span key="t-settings">Gallery</span>
+                                </a>
+                            </li>
                             
                             
                             
@@ -321,6 +330,20 @@
                 });
                 
             });
+        </script>
+
+        <script>
+            function previewImage(input, previewId) {
+                if (input.files && input.files[0]) {
+                    let reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        document.getElementById(previewId).src = e.target.result;
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
         </script>
 
         <script>

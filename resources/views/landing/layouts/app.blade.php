@@ -507,6 +507,35 @@
         <script src="{{ asset('frontAssets/js/wow.min.js') }}"></script>
         <!--<< Main.js >>-->
         <script src="{{ asset('frontAssets/js/main.js') }}"></script>
+        <script>
+            $(document).ready(function(){
+
+                $('.gallery-popup').magnificPopup({
+                    type:'image',
+                    gallery:{
+                        enabled:true
+                    }
+                });
+
+                $('.gallery-filter-btn').on('click', function(){
+
+                    $('.gallery-filter-btn').removeClass('active');
+                    $(this).addClass('active');
+
+                    let filter = $(this).data('filter');
+
+                    if(filter === 'all'){
+                        $('.gallery-item').show();
+                    }else{
+                        $('.gallery-item').hide();
+                        $('.gallery-item[data-category="'+filter+'"]').show();
+                    }
+
+                });
+
+            });
+
+        </script>
 
         <script>
 

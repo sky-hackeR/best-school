@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\PageController::class, 'index'])->name('home');
 Route::get('/about', [App\Http\Controllers\PageController::class, 'about'])->name('about');
+Route::get('/contact', [App\Http\Controllers\PageController::class, 'contact'])->name('contact');
+Route::get('/gallery', [App\Http\Controllers\PageController::class, 'gallery'])->name('gallery');
+
+
+
 
 
 Route::group(['prefix' => 'admin'], function () {
@@ -55,7 +60,11 @@ Route::group(['prefix' => 'admin'], function () {
   Route::get('/schoolAnthem', [App\Http\Controllers\Admin\AdminController::class, 'schoolAnthem'])->name('schoolAnthem')->middleware(['auth:admin']);
   Route::post('/updateSchoolAnthem', [App\Http\Controllers\Admin\AdminController::class, 'updateSchoolAnthem'])->name('updateSchoolAnthem')->middleware(['auth:admin']);
 
-
+  Route::get('/gallery', [App\Http\Controllers\Admin\AdminController::class, 'gallery'])->name('gallery')->middleware(['auth:admin']);
+  Route::post('/newGallery', [App\Http\Controllers\Admin\AdminController::class, 'newGallery'])->name('newGallery')->middleware(['auth:admin']);
+  Route::post('/setGalleryStatus', [App\Http\Controllers\Admin\AdminController::class, 'setGalleryStatus'])->name('setGalleryStatus')->middleware(['auth:admin']);
+  Route::post('/updateGallery', [App\Http\Controllers\Admin\AdminController::class, 'updateGallery'])->name('updateGallery')->middleware(['auth:admin']);
+  Route::post('/deleteGallery', [App\Http\Controllers\Admin\AdminController::class, 'deleteGallery'])->name('deleteGallery')->middleware(['auth:admin']);
 
   
 
