@@ -6,7 +6,9 @@
 
     @include('landing.sections.about')
 
-    @include('landing.sections.management')
+    @include('landing.sections.academicProgramme')
+
+    {{-- @include('landing.sections.management') --}}
 
 
 @endsection

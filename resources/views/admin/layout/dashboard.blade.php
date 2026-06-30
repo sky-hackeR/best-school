@@ -191,6 +191,13 @@
                                     <span key="t-settings">Gallery</span>
                                 </a>
                             </li>
+
+                            <li>
+                                <a href="{{ url('/admin/academicProgramme') }}" class="waves-effect">
+                                    <i class="bx bx-images"></i>
+                                    <span key="t-settings">Academic Programme</span>
+                                </a>
+                            </li>
                             
                             
                             
@@ -351,6 +358,42 @@
                     reader.readAsDataURL(input.files[0]);
                 }
             }
+        </script>
+
+        <script>
+
+            $(document).on('click', '.add-subject', function(){
+
+                $('#add-subject-wrapper').append(`
+                    <div class="input-group mb-2">
+                        <input type="text" name="subjects[]" class="form-control" placeholder="Enter Subject">
+                        <button type="button" class="btn btn-danger remove-subject">
+                            <i class="bx bx-trash"></i>
+                        </button>
+                    </div>
+                `);
+
+            });
+
+            $(document).on('click', '.add-subject-edit', function(){
+
+                $(this).before(`
+                    <div class="input-group mb-2">
+                        <input type="text" name="subjects[]" class="form-control" placeholder="Enter Subject">
+                        <button type="button" class="btn btn-danger remove-subject">
+                            <i class="bx bx-trash"></i>
+                        </button>
+                    </div>
+                `);
+
+            });
+
+            $(document).on('click', '.remove-subject', function(){
+
+                $(this).closest('.input-group').remove();
+
+            });
+
         </script>
 
         <script>

@@ -21,6 +21,9 @@ Route::get('/', [App\Http\Controllers\PageController::class, 'index'])->name('ho
 Route::get('/about', [App\Http\Controllers\PageController::class, 'about'])->name('about');
 Route::get('/contact', [App\Http\Controllers\PageController::class, 'contact'])->name('contact');
 Route::get('/gallery', [App\Http\Controllers\PageController::class, 'gallery'])->name('gallery');
+Route::get('/academicProgrammes', [App\Http\Controllers\PageController::class, 'academicProgrammes'])->name('academicProgrammes');
+
+
 
 
 
@@ -72,6 +75,15 @@ Route::group(['prefix' => 'admin'], function () {
   Route::post('/setManagementStatus', [App\Http\Controllers\Admin\AdminController::class, 'setManagementStatus'])->name('setManagementStatus')->middleware(['auth:admin']);
   Route::post('/updateManagement', [App\Http\Controllers\Admin\AdminController::class, 'updateManagement'])->name('updateManagement')->middleware(['auth:admin']);
   Route::post('/deleteManagement', [App\Http\Controllers\Admin\AdminController::class, 'deleteManagement'])->name('deleteManagement')->middleware(['auth:admin']);
+
+
+  Route::get('/academicProgramme', [App\Http\Controllers\Admin\AdminController::class, 'academicProgramme'])->name('academicProgramme')->middleware(['auth:admin']);
+  Route::post('/newProgramme', [App\Http\Controllers\Admin\AdminController::class, 'newProgramme'])->name('newProgramme')->middleware(['auth:admin']);
+  Route::post('/updateProgramme', [App\Http\Controllers\Admin\AdminController::class, 'updateProgramme'])->name('updateProgramme')->middleware(['auth:admin']);
+  Route::post('/deleteProgramme', [App\Http\Controllers\Admin\AdminController::class, 'deleteProgramme'])->name('deleteProgramme')->middleware(['auth:admin']);
+
+
+
 
   
 

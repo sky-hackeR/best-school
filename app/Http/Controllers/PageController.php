@@ -22,6 +22,8 @@ use App\Models\VisionMission;
 use App\Models\SchoolAnthem;
 use App\Models\Gallery;
 use App\Models\Management;
+use App\Models\AcademicProgramme;
+
 
 
 
@@ -34,11 +36,13 @@ class PageController extends Controller
         $history = SchoolHistory::first();
         $visionMission = VisionMission::first();
         $management = Management::where('status', 'active')->get();
+        $programmes = AcademicProgramme::all();
         return view('landing.welcome', [
             'carousels' => $carousels,
             'history' => $history,
             'visionMission' => $visionMission,
             'management' => $management,
+            'programmes' => $programmes,    
         ]);
     }
 
@@ -63,6 +67,14 @@ class PageController extends Controller
             'galleries' => $galleries,
         
         ]);
+    }
+
+    public function academicProgrammes(){
+        $programmes = AcademicProgramme::all();
+        return view('landing.pages.academicProgrammes', [
+            'programmes' => $programmes,
+        ]);
+    
     }
 
 

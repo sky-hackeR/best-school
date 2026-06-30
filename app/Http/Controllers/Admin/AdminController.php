@@ -23,6 +23,8 @@ use App\Models\VisionMission;
 use App\Models\SchoolAnthem;
 use App\Models\Gallery;
 use App\Models\Management;
+use App\Models\AcademicProgramme;
+
 
 
 
@@ -760,6 +762,106 @@ class AdminController extends Controller
 
         alert()->error('Oops!', 'Something went wrong')->persistent('Close');
         return redirect()->back();
+    }
+
+
+    public function academicProgramme(){
+        $programmes = AcademicProgramme::all();
+        return view('admin.academicProgramme', [
+            'programmes' => $programmes,
+        ]);
+    }
+
+    public function newProgramme(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'programme_name' => 'required|string|max:255',
+            'subjects' => 'required|array|min:1',
+            'subjects.*' => 'required|string|max:255',
+        ]);
+
+        if($validator->fails()){
+            alert()->error('Error', $validator->messages()->first())->persistent('Close');
+            return redirect()->back()->withInput();
+        }
+
+        $programme = new AcademicProgramme;
+
+        $programme->programme_name = $request->programme_name;
+        $programme->subjects = array_values(array_filter($request->subjects));
+
+        if($programme->save()){
+            alert()->success('Success', 'Programme created successfully')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+
+    }
+
+    public function updateProgramme(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'programme_id' => 'required|exists:academic_programmes,id',
+            'programme_name' => 'required|string|max:255',
+            'subjects' => 'required|array|min:1',
+            'subjects.*' => 'required|string|max:255',
+        ]);
+
+        if($validator->fails()){
+            alert()->error('Error', $validator->messages()->first())->persistent('Close');
+            return redirect()->back()->withInput();
+        }
+
+        if(!$programme = AcademicProgramme::find($request->programme_id)){
+            alert()->error('Oops', 'Invalid Programme')->persistent('Close');
+            return redirect()->back();
+        }
+
+        $programme->programme_name = $request->programme_name;
+        $programme->subjects = array_values(array_filter($request->subjects));
+
+        if($programme->isDirty()){
+
+            if($programme->save()){
+                alert()->success('Success', 'Programme updated successfully')->persistent('Close');
+                return redirect()->back();
+            }
+
+            alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->info('No Changes', 'No updates were made')->persistent('Close');
+        return redirect()->back();
+
+    }
+
+    public function deleteProgramme(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'programme_id' => 'required|exists:academic_programmes,id',
+        ]);
+
+        if($validator->fails()){
+            alert()->error('Error', $validator->messages()->first())->persistent('Close');
+            return redirect()->back();
+        }
+
+        if(!$programme = AcademicProgramme::find($request->programme_id)){
+            alert()->error('Oops', 'Invalid Programme')->persistent('Close');
+            return redirect()->back();
+        }
+
+        if($programme->delete()){
+            alert()->success('Deleted', 'Programme deleted successfully')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+
     }
 
     
