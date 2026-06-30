@@ -52,7 +52,7 @@
                                         <div class="avatar-sm mx-auto">
                                             <img src="{{ $carousel->image ? asset($carousel->image) : asset('assets/images/small/img-1.jpg') }}" 
                                                  alt="Carousel Thumbnail" 
-                                                 class="avatar-title rounded-circle img-thumbnail shadow-sm img-fluid"
+                                                 class="rounded"
                                                  style="object-fit: cover; height: 100%; width: 100%;">
                                         </div>
                                     </td>

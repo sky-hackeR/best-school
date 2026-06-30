@@ -22,6 +22,8 @@ use App\Models\SchoolHistory;
 use App\Models\VisionMission;
 use App\Models\SchoolAnthem;
 use App\Models\Gallery;
+use App\Models\Management;
+
 
 
 use SweetAlert;
@@ -611,6 +613,154 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+
+    public function management(){
+        $management = Management::all();
+        return view('admin.management', [
+            'management' => $management,
+        ]);
+    }
+
+    public function newManagement(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'role' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        if($validator->fails()){
+            alert()->error('Validation Error', $validator->messages()->first())->persistent('Close');
+            return redirect()->back()->withInput();
+        }
+
+        $management = new Management;
+
+        $management->role = $request->role;
+        $management->name = $request->name;
+
+        $hashedFolder = md5(uniqid() . time());
+        $folderPath = public_path("uploads/managements/{$hashedFolder}");
+
+        if(!file_exists($folderPath)){
+            mkdir($folderPath, 0777, true);
+        }
+
+        if($request->hasFile('image')){
+            $imageName = 'management.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move($folderPath, $imageName);
+
+            $management->image = "uploads/managements/{$hashedFolder}/{$imageName}";
+            $management->upload_folder = $hashedFolder;
+        }
+
+        if($management->save()){
+            alert()->success('Success', 'Management member added successfully')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+    public function updateManagement(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'management_id' => 'required|exists:management,id',
+            'role' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        if($validator->fails()){
+            alert()->error('Validation Error', $validator->messages()->first())->persistent('Close');
+            return redirect()->back()->withInput();
+        }
+
+        if(!$management = Management::find($request->management_id)){
+            alert()->error('Oops', 'Invalid Management Member')->persistent('Close');
+            return redirect()->back();
+        }
+
+        $management->role = $request->role;
+        $management->name = $request->name;
+
+        if(!$management->upload_folder){
+            $management->upload_folder = md5($management->id . uniqid());
+            $management->save();
+        }
+
+        $folderPath = public_path("uploads/managements/{$management->upload_folder}");
+
+        if(!file_exists($folderPath)){
+            mkdir($folderPath, 0777, true);
+        }
+
+        if($request->hasFile('image')){
+            $imageName = 'management.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move($folderPath, $imageName);
+
+            $management->image = "uploads/managements/{$management->upload_folder}/{$imageName}";
+        }
+
+        if($management->save()){
+            alert()->success('Success', 'Management member updated successfully')->persistent('Close');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+    public function setManagementStatus(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'management_id' => 'required|exists:managements,id',
+            'status' => 'required|in:active,inactive',
+        ]);
+
+        if($validator->fails()){
+            alert()->error('Error', $validator->messages()->first())->persistent('Close');
+            return redirect()->back();
+        }
+
+        $management = Management::findOrFail($request->management_id);
+
+        $management->status = $request->status;
+
+        if($management->save()){
+            alert()->success('Updated', 'Management status updated successfully');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
+
+    public function deleteManagement(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'management_id' => 'required|exists:managements,id',
+        ]);
+
+        if($validator->fails()){
+            alert()->error('Error', $validator->messages()->first())->persistent('Close');
+            return redirect()->back();
+        }
+
+        if(!$management = Management::find($request->management_id)){
+            alert()->error('Oops', 'Invalid Management Member')->persistent('Close');
+            return redirect()->back();
+        }
+
+        if($management->delete()){
+            alert()->success('Deleted', 'Management member deleted successfully');
+            return redirect()->back();
+        }
+
+        alert()->error('Oops!', 'Something went wrong')->persistent('Close');
+        return redirect()->back();
+    }
 
     
 }

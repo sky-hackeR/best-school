@@ -11,7 +11,7 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item active">
-                        Gallery Management
+                        Management Team
                     </li>
                 </ol>
             </div>
@@ -30,11 +30,11 @@
 
                 <div>
                     <h4 class="card-title mb-0">
-                        Gallery Management
+                        Management Team
                     </h4>
 
                     <p class="text-muted mb-0 small">
-                        Upload and manage gallery images displayed across the website.
+                        Upload and manage management team displayed across the website.
                     </p>
                 </div>
 
@@ -42,10 +42,10 @@
                     type="button"
                     class="btn btn-primary btn-rounded px-4"
                     data-bs-toggle="modal"
-                    data-bs-target="#addGallery"
+                    data-bs-target="#addManagement"
                 >
                     <i class="bx bx-plus me-1"></i>
-                    Add Image
+                    Add Member 
                 </button>
 
             </div>
@@ -67,7 +67,11 @@
                                 </th>
 
                                 <th>
-                                    Category
+                                    Name
+                                </th>
+
+                                <th>
+                                    Role
                                 </th>
 
                                 <th>
@@ -87,7 +91,7 @@
 
                         <tbody>
 
-                            @foreach($galleries as $gallery)
+                            @foreach($management as $item)
 
                                 <tr>
 
@@ -96,7 +100,7 @@
                                         <div class="avatar-sm mx-auto">
 
                                             <img
-                                                src="{{ asset($gallery->image) }}"
+                                                src="{{ asset($item->image) }}"
                                                 class="rounded"
                                                 style="object-fit:cover;height:100%;width:100%;"
                                             >
@@ -108,26 +112,30 @@
                                     <td>
 
                                         <h5 class="font-size-14 mb-0 text-dark fw-semibold">
-                                            {{ $gallery->category }}
+                                            {{ $item->name }}
                                         </h5>
 
                                     </td>
 
                                     <td>
+                                        {{ $item->role }}
+                                    </td>
 
-                                        <span class="badge {{ $gallery->status == 'active' ? 'bg-soft-success text-success' : 'bg-soft-danger text-danger' }} font-size-12 px-2 py-1">
-                                            {{ ucfirst($gallery->status) }}
+                                    <td>
+
+                                        <span class="badge {{ $item->status == 'active' ? 'bg-soft-success text-success' : 'bg-soft-danger text-danger' }} font-size-12 px-2 py-1">
+                                            {{ ucfirst($item->status) }}
                                         </span>
 
                                     </td>
 
                                     <td>
 
-                                        <form action="{{ url('/admin/setGalleryStatus') }}" method="POST" class="d-flex flex-wrap gap-1">
+                                        <form action="{{ url('/admin/setManagementStatus') }}" method="POST" class="d-flex flex-wrap gap-1">
 
                                             @csrf
 
-                                            <input type="hidden" name="gallery_id" value="{{ $gallery->id }}">
+                                            <input type="hidden" name="management_id" value="{{ $item->id }}">
 
                                             @foreach(['active','inactive'] as $status)
 
@@ -135,7 +143,7 @@
                                                     type="submit"
                                                     name="status"
                                                     value="{{ $status }}"
-                                                    class="btn btn-sm {{ $gallery->status == $status ? ($status == 'active' ? 'btn-success' : 'btn-danger') : 'btn-outline-secondary' }}"
+                                                    class="btn btn-sm {{ $item->status == $status ? ($status == 'active' ? 'btn-success' : 'btn-danger') : 'btn-outline-secondary' }}"
                                                 >
                                                     {{ ucfirst($status) }}
                                                 </button>
@@ -154,7 +162,7 @@
                                                 type="button"
                                                 class="btn btn-soft-info btn-sm"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#viewGallery{{ $gallery->id }}"
+                                                data-bs-target="#viewManagement{{ $item->id }}"
                                             >
                                                 <i class="bx bx-show-alt"></i>
                                             </button>
@@ -163,7 +171,7 @@
                                                 type="button"
                                                 class="btn btn-soft-primary btn-sm"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#editGallery{{ $gallery->id }}"
+                                                data-bs-target="#editManagement{{ $item->id }}"
                                             >
                                                 <i class="bx bx-pencil"></i>
                                             </button>
@@ -172,7 +180,7 @@
                                                 type="button"
                                                 class="btn btn-soft-danger btn-sm"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#deleteGallery{{ $gallery->id }}"
+                                                data-bs-target="#deleteManagement{{ $item->id }}"
                                             >
                                                 <i class="bx bx-trash"></i>
                                             </button>
@@ -209,11 +217,11 @@
                     <div class="flex-grow-1">
 
                         <p class="text-white-50 fw-medium mb-2">
-                            Total Images
+                            Total Members
                         </p>
 
                         <h3 class="text-white mb-0">
-                            {{ $galleries->count() }}
+                            {{ $management->count() }}
                         </h3>
 
                     </div>
@@ -222,7 +230,7 @@
 
                         <span class="avatar-title bg-soft-light text-white rounded-circle font-size-20">
 
-                            <i class="bx bx-images"></i>
+                            <i class="bx bxs-user-detail"></i>
 
                         </span>
 
@@ -239,7 +247,7 @@
             <div class="card-body">
 
                 <h5 class="card-title mb-3">
-                    Gallery Guidelines
+                    Management Guidelines
                 </h5>
 
                 <div class="alert alert-soft-info border-info font-size-13 mb-0">
@@ -258,20 +266,20 @@
 
                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
 
-                        Active Images
+                        Active Members
 
                         <span class="badge bg-success rounded-pill">
-                            {{ $galleries->where('status','active')->count() }}
+                            {{ $management->where('status','active')->count() }}
                         </span>
 
                     </li>
 
                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
 
-                        Hidden Images
+                        Hidden Members
 
                         <span class="badge bg-secondary rounded-pill">
-                            {{ $galleries->where('status','inactive')->count() }}
+                            {{ $management->where('status','inactive')->count() }}
                         </span>
 
                     </li>
@@ -287,10 +295,10 @@
 </div>
 
 
-@foreach($galleries as $gallery)
+@foreach($management as $item)
 
-    {{-- VIEW GALLERY MODAL --}}
-    <div class="modal fade" id="viewGallery{{ $gallery->id }}" tabindex="-1" aria-hidden="true">
+    {{-- VIEW Management MODAL --}}
+    <div class="modal fade" id="viewManagement{{ $item->id }}" tabindex="-1" aria-hidden="true">
 
         <div class="modal-dialog modal-lg modal-dialog-centered">
 
@@ -299,7 +307,7 @@
                 <div class="modal-header bg-light">
 
                     <h5 class="modal-title">
-                        Gallery Image Details
+                        Management Image Details
                     </h5>
 
                     <button
@@ -317,15 +325,15 @@
                         <div class="col-md-5 border-end bg-light text-center p-4">
 
                             <img
-                                src="{{ asset($gallery->image) }}"
+                                src="{{ asset($item->image) }}"
                                 class="img-fluid rounded shadow-sm border"
                                 style="max-height:300px;width:100%;object-fit:cover;"
                             >
 
                             <div class="mt-3">
 
-                                <span class="badge {{ $gallery->status == 'active' ? 'bg-soft-success text-success' : 'bg-soft-danger text-danger' }}">
-                                    {{ ucfirst($gallery->status) }}
+                                <span class="badge {{ $item->status == 'active' ? 'bg-soft-success text-success' : 'bg-soft-danger text-danger' }}">
+                                    {{ ucfirst($item->status) }}
                                 </span>
 
                             </div>
@@ -337,17 +345,29 @@
                             <div class="card-body p-4">
 
                                 <h6 class="text-muted text-uppercase mb-3">
-                                    Gallery Information
+                                    Management Information
                                 </h6>
 
                                 <div class="row mb-3">
 
                                     <div class="col-sm-4 text-muted">
-                                        Category
+                                        Role:
                                     </div>
 
                                     <div class="col-sm-8 fw-semibold">
-                                        {{ $gallery->category }}
+                                        {{ $item->role }}
+                                    </div>
+
+                                </div>
+
+                                <div class="row mb-3">
+
+                                    <div class="col-sm-4 text-muted">
+                                        Name:
+                                    </div>
+
+                                    <div class="col-sm-8 fw-semibold">
+                                        {{ $item->name }}
                                     </div>
 
                                 </div>
@@ -359,7 +379,7 @@
                                     </div>
 
                                     <div class="col-sm-8">
-                                        {{ ucfirst($gallery->status) }}
+                                        {{ ucfirst($item->status) }}
                                     </div>
 
                                 </div>
@@ -371,7 +391,7 @@
                                     </div>
 
                                     <div class="col-sm-8">
-                                        {{ $gallery->created_at->format('d M, Y') }}
+                                        {{ $item->created_at->format('d M, Y') }}
                                     </div>
 
                                 </div>
@@ -403,14 +423,14 @@
     </div>
 
 
-    {{-- EDIT GALLERY MODAL --}}
-    <div class="modal fade" id="editGallery{{ $gallery->id }}" tabindex="-1" aria-hidden="true">
+    {{-- EDIT Management MODAL --}}
+    <div class="modal fade" id="editManagement{{ $item->id }}" tabindex="-1" aria-hidden="true">
 
         <div class="modal-dialog modal-lg modal-dialog-centered">
 
 
             <form
-                action="{{ url('/admin/updateGallery') }}"
+                action="{{ url('/admin/updateManagement') }}"
                 method="POST"
                 enctype="multipart/form-data"
                 class="w-100"
@@ -420,8 +440,8 @@
 
                 <input
                     type="hidden"
-                    name="gallery_id"
-                    value="{{ $gallery->id }}"
+                    name="management_id"
+                    value="{{ $item->id }}"
                 >
 
                 <div class="modal-content border-0 shadow">
@@ -429,7 +449,7 @@
                     <div class="modal-header bg-light">
 
                         <h5 class="modal-title">
-                            Update Gallery Image
+                            Update Member Details
                         </h5>
 
                         <button
@@ -447,8 +467,8 @@
                             <div class="col-md-6 border-end text-center">
 
                                 <img
-                                    id="gallery-preview-{{ $gallery->id }}"
-                                    src="{{ asset($gallery->image) }}"
+                                    id="management-preview-{{ $item->id }}"
+                                    src="{{ asset($item->image) }}"
                                     class="img-thumbnail shadow-sm mb-3"
                                     style="width:100%;max-width:240px;height:240px;object-fit:cover;"
                                 >
@@ -463,7 +483,7 @@
                                     name="image"
                                     class="form-control form-control-sm"
                                     accept="image/*"
-                                    onchange="previewImage(this,'gallery-preview-{{ $gallery->id }}')"
+                                    onchange="previewImage(this,'management-preview-{{ $item->id }}')"
                                 >
 
                             </div>
@@ -475,14 +495,31 @@
                                     <div class="col-md-12">
 
                                         <label class="form-label fw-bold">
-                                            Category *
+                                            Role
                                         </label>
 
                                         <input
                                             type="text"
-                                            name="category"
+                                            name="role"
                                             class="form-control"
-                                            value="{{ $gallery->category }}"
+                                            value="{{ $item->role }}"
+                                            required
+                                        >
+
+                                    </div>
+
+
+                                    <div class="col-md-12">
+
+                                        <label class="form-label fw-bold">
+                                            Name
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            class="form-control"
+                                            value="{{ $item->name }}"
                                             required
                                         >
 
@@ -510,7 +547,7 @@
                             type="submit"
                             class="btn btn-success px-4"
                         >
-                            Update Image
+                            Update Member
                         </button>
 
                     </div>
@@ -524,13 +561,13 @@
     </div>
 
 
-    {{-- DELETE GALLERY MODAL --}}
-    <div class="modal fade" id="deleteGallery{{ $gallery->id }}" tabindex="-1" aria-hidden="true">
+    {{-- DELETE Management MODAL --}}
+    <div class="modal fade" id="deleteManagement{{ $item->id }}" tabindex="-1" aria-hidden="true">
 
         <div class="modal-dialog modal-lg modal-dialog-centered">
 
             <form
-                action="{{ url('/admin/deleteGallery') }}"
+                action="{{ url('/admin/deleteManagement') }}"
                 method="POST"
                 class="w-100"
             >
@@ -539,8 +576,8 @@
 
                 <input
                     type="hidden"
-                    name="gallery_id"
-                    value="{{ $gallery->id }}"
+                    name="management_id"
+                    value="{{ $item->id }}"
                 >
 
                 <div class="modal-content border-0 shadow">
@@ -558,25 +595,25 @@
                         </div>
 
                         <h4 class="text-danger">
-                            Delete Gallery Image?
+                            Delete Management Member?
                         </h4>
 
                         <p class="text-muted">
 
-                            You are about to permanently remove this image from the gallery.
+                            You are about to permanently remove this member from the management.
 
                         </p>
 
                         <div class="mt-3">
 
                             <img
-                                src="{{ asset($gallery->image) }}"
+                                src="{{ asset($item->image) }}"
                                 class="img-thumbnail"
-                                style="height:240px;width:240px;object-fit:cover;"
+                                style="height:240px;width:240px;"
                             >
 
                             <p class="mt-2 fw-semibold mb-0">
-                                {{ $gallery->category }}
+                                {{ $item->name }}
                             </p>
 
                         </div>
@@ -612,13 +649,13 @@
 
 @endforeach
 
-{{-- ADD GALLERY MODAL --}}
-<div class="modal fade" id="addGallery" tabindex="-1">
+{{-- ADD Management MODAL --}}
+<div class="modal fade" id="addManagement" tabindex="-1">
 
     <div class="modal-dialog modal-lg modal-dialog-centered">
 
         <form
-            action="{{ url('/admin/newGallery') }}"
+            action="{{ url('/admin/newManagement') }}"
             method="POST"
             enctype="multipart/form-data"
             class="w-100"
@@ -631,7 +668,7 @@
                 <div class="modal-header bg-light">
 
                     <h5 class="modal-title">
-                        Add Gallery Image
+                        Add Management Member
                     </h5>
 
                     <button
@@ -644,28 +681,12 @@
 
                 <div class="modal-body p-4">
 
-                    <div class="row g-3">
+                    <div class="row">
 
-                        <div class="col-md-12">
-
-                            <label class="form-label fw-bold">
-                                Category *
-                            </label>
-
-                            <input
-                                type="text"
-                                name="category"
-                                class="form-control"
-                                placeholder="e.g Sports, Graduation, Events"
-                                required
-                            >
-
-                        </div>
-
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-6 border-end text-center">
 
                             <label class="form-label fw-bold">
-                                Upload Image *
+                                Upload Image 
                             </label>
 
                             <input
@@ -675,6 +696,58 @@
                                 accept="image/*"
                                 required
                             >
+
+                        </div> --}}
+
+                        <div class="col-md-6 border-end text-center"> 
+                            <label class="form-label fw-bold">Upload Image</label> 
+                            <input type="file" name="image" id="imageInput" class="form-control" accept="image/*" required>
+                            
+                            <!-- Image preview container -->
+                            <div class="mt-3">
+                                <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid d-none" style="max-height: 200px;">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="row g-3">
+
+                                <div class="col-md-12">
+
+                                    <label class="form-label fw-bold">
+                                        Role
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="role"
+                                        class="form-control"
+                                        placeholder="e.g Chairman, Headteacher"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="col-md-12">
+
+                                    <label class="form-label fw-bold">
+                                        Name
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        class="form-control"
+                                        placeholder="e.g Title, Lastname, Firstname"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
 
                         </div>
 
@@ -708,5 +781,27 @@
     </div>
 
 </div>
+
+<script>
+    document.getElementById('imageInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('imagePreview');
+    
+    if (file) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none'); 
+        }
+        
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = '#';
+        preview.classList.add('d-none');
+    }
+});
+
+</script>
 
 @endsection

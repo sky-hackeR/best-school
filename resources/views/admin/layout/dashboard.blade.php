@@ -153,6 +153,13 @@
                                 </a>
                             </li>
 
+                            <li>
+                                <a href="{{ url('/admin/management') }}" class="waves-effect">
+                                    <i class="bx bx-briefcase"></i>
+                                    <span key="t-settings">Management Team</span>
+                                </a>
+                            </li>
+
 
                             <li class="menu-title" key="t-menu">About Management</li>
                             <li>

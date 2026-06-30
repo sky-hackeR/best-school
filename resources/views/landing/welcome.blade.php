@@ -6,8 +6,7 @@
 
     @include('landing.sections.about')
 
-    
+    @include('landing.sections.management')
 
-    
 
 @endsection

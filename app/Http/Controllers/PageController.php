@@ -21,6 +21,8 @@ use App\Models\SchoolHistory;
 use App\Models\VisionMission;
 use App\Models\SchoolAnthem;
 use App\Models\Gallery;
+use App\Models\Management;
+
 
 
 class PageController extends Controller
@@ -31,10 +33,12 @@ class PageController extends Controller
         $carousels = Carousel::where('status', 'active')->get();
         $history = SchoolHistory::first();
         $visionMission = VisionMission::first();
+        $management = Management::where('status', 'active')->get();
         return view('landing.welcome', [
             'carousels' => $carousels,
             'history' => $history,
             'visionMission' => $visionMission,
+            'management' => $management,
         ]);
     }
 
